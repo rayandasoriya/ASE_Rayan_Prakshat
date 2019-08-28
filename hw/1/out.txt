@@ -1,0 +1,6 @@
+Mean after adding and removing elements: 
+add_mean:  [57.7, 52.45, 55.17, 56.45, 55.74, 54.15, 55.54, 54.06, 54.06, 51.8]
+subtract_mean:  [54.06, 54.06, 55.54, 54.15, 55.74, 56.45, 55.17, 52.45, 57.7]
+Standard Deviation after adding and removing elements: 
+add_sd:  [27.02, 30.69, 28.13, 28.51, 28.02, 27.93, 28.12, 27.59, 28.12, 28.92]
+subtract_sd:  [28.12, 27.59, 28.12, 27.93, 28.02, 28.51, 28.13, 30.69, 27.02]
