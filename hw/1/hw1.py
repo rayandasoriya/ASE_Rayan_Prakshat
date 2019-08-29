@@ -45,16 +45,15 @@ class Num(Col):
         subtract_mean = []
         subtract_sd = []
         for _ in range(len(array)-1, 0, -1):
+            if self.n % 10 == 0:
+                subtract_mean.append(round(self.mu, 2))
+                subtract_sd.append(round(self.sd, 2))
             self.n -= 1
             deleteValue = array.pop()
             delta = deleteValue-self.mu
             self.mu -= delta/self.n
             self.m2 -= delta*(deleteValue-self.mu)
             self._numSd()
-            # Adding the mean and sd to a list after removing 10 elements
-            if self.n % 10 == 0:
-                subtract_mean.append(round(self.mu, 2))
-                subtract_sd.append(round(self.sd, 2))
         return subtract_mean, subtract_sd
 
 
@@ -75,12 +74,6 @@ if __name__ == "__main__":
         array.append(random.randint(1, 101))
 
     add_mean, add_sd = num.num1(array)
-
-    # Since the size of the array is 100, the size of add_mean and add_sd should be 10(10,20, ..,100).
-    # But the size of subtract_mean and subtract_sd should be 9 because we are initially removing the
-    # first element, which makes the size as 99. Hence, we are not considering the mean and sd at that point.
-    # So, the list will contain the mean and sd for (90,80,..,10) elements in the list.
-
     print("Mean & SD after adding elements: ")
     print("add_mean: ", add_mean)
     print("add_sd: ", add_sd)
