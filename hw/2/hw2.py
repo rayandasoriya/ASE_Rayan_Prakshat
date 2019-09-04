@@ -1,4 +1,5 @@
 import re
+import zipfile
 
 def compiler(x):
   "return something that can compile strings of type x"
@@ -32,16 +33,30 @@ def rows(src,
     line = re.sub(doomed, '', line)
     if line:
       yield line.split(sep)
+    else:
+      yield line
 
 def cells(src):
   "convert strings into their right types"
   oks = None
-  for n,cells in enumerate(src):
+  prev = 0
+  for n,cells in enumerate(src):    
+    if not cells:
+      continue
+    if not prev:
+      prev = len(cells)
+    if prev!= len(cells):
+      print("E> Skipping line ", n+1)
+      continue
+    # print(cells)
     if n==0:
        yield cells
     else:
-       oks = oks or [compiler(cell) for cell in cells]
-       yield [f(cell) for f,cell in zip(oks,cells)]
+        for cell in range(len(cells)):
+          if '?' in cells[cell]:
+            cells[cell] = '?'
+        oks = oks or [compiler(cell) for cell in cells]
+        yield [f(cell) for f,cell in zip(oks,cells)]
 
 def fromString(s):
   "putting it all together"
@@ -50,18 +65,18 @@ def fromString(s):
 
 
 if __name__=="__main__":
-  s="""
-  $cloudCover, $temp, $humid, $wind,  $playHours
+  s="""$cloudCover, $temp, $humid, $wind,  $playHours
   100,        68,    80,    0,    3   # comments
   0,          85,    85,    0,    0
   0,          80,    90,    10,   0
+
   60,         83,    86,    0,    4
   100,        70,    96,    0,    3
   100,        65,    70,    20,   0
   70,         64,    65,    15,   5
-  0,          72,    95,    0,    0
+  0,          72,    95,    0    
   0,          69,    70,    0,    4
-  80,          75,    80,    0,    3  
+  80,          75,    80,    0,    ? 
   0,          75,    70,    18,   4
   60,         72,    90,    10,   4
   40,         81,    75,    0,    2    
