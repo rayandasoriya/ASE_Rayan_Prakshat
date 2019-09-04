@@ -7,6 +7,7 @@ class Tbl:
         self.fname = fname
         self.rows = []
         self.cols = []
+        self.oid = 1
     
     def dump(self, c):
         print("t.cols")
@@ -14,14 +15,16 @@ class Tbl:
         for i in range(len(c.n)):
             print('|',i+1)
             print('| | add: Num1')
-            print('| | col: ', i+1)
-            print('| | hi: ', c.maxV[i])
-            print('| | lo: ', c.minV[i])
-            print('| | m2: ', c.m2[i])
-            print('| | mu: ', c.mean[i])
-            print('| | n: ', c.n[i])
-            print('| | sd: ', c.sd[i])
-            print('| | txt: ', self.rows[0][i])
+            print('| | col:', i+1)
+            print('| | hi:', c.maxV[i])
+            print('| | lo:', c.minV[i])
+            print('| | m2:', c.m2[i])
+            print('| | mu:', c.mean[i])
+            print('| | n:', c.n[i])
+            print('| | oid:', self.oid)
+            print('| | sd:', c.sd[i])
+            print('| | txt:', self.rows[0][i])
+            self.oid+=1
             
         print("t.rows")
         for idx, rows in enumerate(self.rows):
@@ -29,19 +32,26 @@ class Tbl:
                 print('|',idx+1)
                 print('| | cells')
                 for i, row in enumerate(rows):
-                    print('| | | ',i+1,': ',row)
-
-
+                    print('| | | ',i+1,':',row)
+                print('| | cooked')
+                print('| | dom: 0')
+                print('| | oid:', self.oid)
+                self.oid+=1
 
 class Row(Tbl):
     def __init__(self, file):
         Tbl.__init__(self, file)
     
     def compiler(self, x):
-        try: int(x); return  int 
+        try:
+            int(x)
+            return int 
         except:
-            try: float(x); return  float
-            except ValueError: return str
+            try: 
+                float(x)
+                return float
+            except ValueError: 
+                return str
 
     def string(self, s):
         for line in s.splitlines(): 
@@ -97,18 +107,32 @@ class Row(Tbl):
                 for i in range(len(cells)):
                     if i not in self.question_check:
                         new_arr.append(cells[i])  
-                oks = oks or [self.compiler(cell) for cell in new_arr]
+                oks = [self.compiler(cell) for cell in new_arr]
                 yield [f(cell) for f,cell in zip(oks,new_arr)]
 
-    def fromString(self):
-        for lst in self.cells(self.row(self.string(self.fname))):
-            self.rows.append(lst)
-            yield lst
 
+    question_check = []
+    def cellsModified(self, src):
+        oks = None
+        for n,cells in enumerate(src):    
+            if n==0:
+                yield cells
+            else:
+                oks = [self.compiler(cell) for cell in cells]
+                yield [f(cell) for f,cell in zip(oks,cells)]
+
+    def fromString(self, part):
+        if not part:
+            for lst in self.cells(self.row(self.string(self.fname))):
+                self.rows.append(lst)
+                yield lst
+        else:
+            for lst in self.cellsModified(self.row(self.string(self.fname))):
+                yield lst
 
 if __name__=="__main__":
     s="""$cloudCover, $temp, ?$humid, <wind,  $playHours
-    100,        68,    80,    0,    3   # comments
+    100.2,        68,    80,    0,    3   # comments
     0,          85,    85,    0,    0
 
     0,          80,    90,    10,   0
@@ -124,12 +148,24 @@ if __name__=="__main__":
     40,         81,    75,    0,    2
     100,        71,    91,    15,   0
     """
+
+    # For Part 1
+    # print("\n ----------------------Part 1----------------------")
+    # part1 = Row(s)
+    # ans = []
+    # for lst in part1.fromString(True):
+    #     print(lst)   
+    
+    # For Part 2
+    print("\n ----------------------Part 2----------------------")
     t = Row(s)
-    for lst in t.fromString():
+    for lst in t.fromString(False):
         print(lst)
+
+    # # For Part 3
+    print("\n ----------------------Part 3----------------------")
     c = Col()
     t.cols = c.colInNum(t.rows)
-    print(t.cols)
     num = Num()
 
     for column in t.cols:
@@ -141,15 +177,3 @@ if __name__=="__main__":
         c.maxV.append(response[4])
         c.minV.append(response[5])
     t.dump(c)
-    # print("\nMean")
-    # print(c.mean)
-    # print("\nsd")
-    # print(c.sd)
-    # print("\nM2")
-    # print(c.m2)
-    # print("\nN")
-    # print(c.n)
-    # print("\nMax")
-    # print(c.maxV)
-    # print("\nMin")
-    # print(c.minV)
