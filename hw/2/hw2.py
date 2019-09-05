@@ -29,7 +29,7 @@ class Tbl:
         print("t.rows")
         for idx, rows in enumerate(self.rows):
             if idx>0:
-                print('|',idx+1)
+                print('|',idx)
                 print('| | cells')
                 for i, row in enumerate(rows):
                     print('| | | ',i+1,':',row)
@@ -150,11 +150,11 @@ if __name__=="__main__":
     """
 
     # For Part 1
-    # print("\n ----------------------Part 1----------------------")
-    # part1 = Row(s)
-    # ans = []
-    # for lst in part1.fromString(True):
-    #     print(lst)   
+    print("\n ----------------------Part 1----------------------")
+    part1 = Row(s)
+    ans = []
+    for lst in part1.fromString(True):
+        print(lst)   
     
     # For Part 2
     print("\n ----------------------Part 2----------------------")

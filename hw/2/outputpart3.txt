@@ -46,7 +46,7 @@ t.cols
 | | sd: 47.03
 | | txt: $playHours
 t.rows
-| 2
+| 1
 | | cells
 | | |  1 : 100.2
 | | |  2 : 68
@@ -55,7 +55,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 5
-| 3
+| 2
 | | cells
 | | |  1 : 0
 | | |  2 : 85
@@ -64,7 +64,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 6
-| 4
+| 3
 | | cells
 | | |  1 : 0
 | | |  2 : 80
@@ -73,7 +73,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 7
-| 5
+| 4
 | | cells
 | | |  1 : 60
 | | |  2 : 83
@@ -82,7 +82,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 8
-| 6
+| 5
 | | cells
 | | |  1 : 100
 | | |  2 : 70
@@ -91,7 +91,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 9
-| 7
+| 6
 | | cells
 | | |  1 : 100
 | | |  2 : 65
@@ -100,7 +100,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 10
-| 8
+| 7
 | | cells
 | | |  1 : 70
 | | |  2 : 64
@@ -109,7 +109,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 11
-| 9
+| 8
 | | cells
 | | |  1 : 0
 | | |  2 : 72
@@ -118,7 +118,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 12
-| 10
+| 9
 | | cells
 | | |  1 : 0
 | | |  2 : 69
@@ -127,7 +127,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 13
-| 11
+| 10
 | | cells
 | | |  1 : 0
 | | |  2 : 75
@@ -136,7 +136,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 14
-| 12
+| 11
 | | cells
 | | |  1 : 0
 | | |  2 : 75
@@ -145,7 +145,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 15
-| 13
+| 12
 | | cells
 | | |  1 : 40
 | | |  2 : 81
@@ -154,7 +154,7 @@ t.rows
 | | cooked
 | | dom: 0
 | | oid: 16
-| 14
+| 13
 | | cells
 | | |  1 : 100
 | | |  2 : 71
