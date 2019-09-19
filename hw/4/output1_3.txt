@@ -1,0 +1,70 @@
+----------------------Task 1----------------------
+1.3787834934861756
+
+----------------------Task 3----------------------
+t.cols
+| 1
+| | add: Sym1
+| | cnt
+| | |  rainy :  5
+| | |  sunny :  5
+| | |  overcast :  4
+| | col: 1
+| | mode: sunny
+| | most: 5
+| | n: 14
+| | oid: 2
+| | txt: outlook
+| 3
+| | add: Num1
+| | col: 3
+| | hi: 96
+| | lo: 65
+| | m2: 1375.21
+| | mu: 81.64
+| | n: 14
+| | oid: 3
+| | sd: 10.29
+| | txt: <humid
+| 4
+| | add: Sym1
+| | cnt
+| | |  FALSE :  8
+| | |  TRUE :  6
+| | col: 4
+| | mode: FALSE
+| | most: 8
+| | n: 14
+| | oid: 4
+| | txt: wind
+| 5
+| | add: Sym1
+| | cnt
+| | |  yes :  9
+| | |  no :  5
+| | col: 5
+| | mode: yes
+| | most: 9
+| | n: 14
+| | oid: 5
+| | txt: !play
+t.my
+| class:  5
+| goals 
+| |  3
+| |  5
+| nums 
+| |  3
+| syms 
+| |  1
+| |  4
+| |  5
+| w 
+| |  3 :  -1
+| xs 
+| |  1
+| |  4
+| xnums 
+| xsyms 
+| |  1
+| |  4
