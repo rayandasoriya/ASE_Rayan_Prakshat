@@ -283,11 +283,11 @@ class Num(Col):
             self._numSd(count)
         return subtract_mean, subtract_sd
 
-    def numLike(self, x):
+    def numLike(self, x, m, cls):
         var = self.sd ** 2
         denom = math.sqrt(math.pi * var)
         num = (2.71828 ** (-(x - self.mu) ** 2) / (2 * var + 0.0001))
-        self.num2(x)
+        print(num)
         return num / (denom + 10 ** (-64)) + 10 ** (-64)
 
 
@@ -334,43 +334,47 @@ class Sym(Col):
         entropy = 0
         for element in self.cnt:
             p = self.cnt[element] / len(self.column)
-            entropy -= p * (math.log(p) / math.log(2))
+            if p:
+                entropy -= p * (math.log(p) / math.log(2))
         return entropy
 
-    def symLike(self, x, prior, m):
+    def symLike(self, x, prior, m, l, cls):
         f = self.cnt[x]
-        print(self.cnt)
-        self.Sym2(x)
+        if cls == l:
+            self.Sym2(x)
+        #print(self.cnt)
         return (f + m * prior) / (self.n + m)
 
 
 class NB(object):
-    def __init__(self, tbl):
+    def __init__(self, tbl, abcd):
         self.tbl = tbl
         self.n = -1
         self.k = 0
         self.m = 1
         self.lst = []
         self.count = 0
-        self.abo = Abcd()
+        self.abo = abcd
         self.tablelist = collections.defaultdict(list)
-        self.cols = []
+        self.cols = collections.defaultdict(list)
 
     def train(self, t, lines):
 
         for idx, row in enumerate(lines):
             if idx == 0:
-                for rowIdx, val in enumerate(row):
-                    if rowIdx + 1 in tbl.syms:
-                        self.cols.append(Sym())
-                    else:
-                        self.cols.append(Num())
-                print(self.cols)
                 continue
-            if idx <= 4:
+            if row[-1] not in self.cols:
+                for rowIdx, _ in enumerate(row):
+                    if self.tbl.indexKeeper[rowIdx] in self.tbl.syms:
+                        self.cols[row[-1]].append(Sym())
+                    elif self.tbl.indexKeeper[rowIdx] in self.tbl.nums:
+                        self.cols[row[-1]].append(Num())
+            if idx <= 4:                    
                 for c in range(len(row) - 1):
-                    print(self.cols[c])
-                    self.cols[c].Sym2(row[c])
+                    if self.tbl.indexKeeper[c] in self.tbl.syms:
+                        self.cols[row[-1]][c].Sym2(row[c])
+                    elif self.tbl.indexKeeper[c] in self.tbl.nums:
+                        self.cols[row[-1]][c].num2(row[c])
             if idx > 4:
                 expected = row[-1]
                 result = self.classify(row, "")
@@ -387,17 +391,17 @@ class NB(object):
             if like > most:
                 most = like
                 guess = cls
+        print(guess)
         return guess
 
     def bayesThm(self, line, tbl, cls):
         like = prior = ((len(tbl) + self.k) / (self.n + self.k * len(self.tablelist)))
-        # print(len(tbl)," ", self.k, " ", self.n, " ", len(self.tablelist), like)
         like = math.log(like)
         for c in range(len(line) - 1):
-            if c + 1 in self.tbl.nums:
-                like += math.log(num.numLike(self.cols[c], line[c]))
-            else:
-                like += math.log(Sym.symLike(self.cols[c], line[c], prior, self.m))
+            if self.tbl.indexKeeper[c] in self.tbl.nums:
+                like += math.log(self.cols[cls][c].numLike(line[c], line[-1], cls))
+            elif self.tbl.indexKeeper[c] in self.tbl.syms:
+                like += math.log(self.cols[cls][c].symLike(line[c], prior, self.m, line[-1], cls))
         return like
 
     def dump(self):
@@ -408,22 +412,21 @@ class NB(object):
             if idx > 0:
                 self.tablelist[row[-1]].append(row[:-1])
                 self.lst.append(row)
-        print(self.tablelist)
-        print(self.lst)
+        # print(self.tablelist)
+        # print(self.lst)
 
 
 if __name__ == "__main__":
-    print("#---zerorok-----------------------")
-    tbl = Row("weathernon.csv")
+    tbl = Row("diabetes.csv")
     rows = []
     for lst in tbl.fromString(False, "file"):
         rows.append(lst)
-
+    
     c = Col()
     num = Num()
     sym = Sym()
     tbl.cols = c.colInNum(tbl.rows)
-
-    nb = NB(tbl)
+    abcd = Abcd()
+    nb = NB(tbl, abcd)
     nb.train(tbl, rows)
-    print(tbl.syms)
+    #abcd.report()
