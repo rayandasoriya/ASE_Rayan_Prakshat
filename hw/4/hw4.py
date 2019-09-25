@@ -225,6 +225,7 @@ class Num(Col):
         self.sd = 0
         self.maxV = -1 * 10 ** 32
         self.minV = 1 * 10 ** 32
+        self.count = 0
 
     # Function to calculate the SD using variance
     def _numSd(self, count):
@@ -233,6 +234,12 @@ class Num(Col):
         else:
             self.sd = (self.m2 / (count - 1)) ** 0.5
 
+    def _numSd2(self):
+        if self.count == 1:
+            self.sd = 0
+        else:
+            self.sd = (self.m2 / (self.count - 1)) ** 0.5
+        
     # Method to incrementally update mean and standard deviation
     def num1(self, array):
         count = 0
@@ -250,6 +257,19 @@ class Num(Col):
             self._numSd(count)
         return round(self.mu, 2), round(self.sd, 2), round(self.m2, 2), count, self.maxV, self.minV
 
+    def num2(self, val):
+        if val > self.maxV:
+            self.maxV = val
+        if val < self.minV:
+            self.minV = val
+        self.count += 1
+        delta = val - self.mu
+        self.mu += (delta / self.count)
+        delta2 = val - self.mu
+        # Calculation of square mean distance
+        self.m2 += delta * delta2
+        self._numSd2()
+        
     # Method to remove the element and update mean and standard deviation
     def numLess(self, array):
         subtract_mean = []
@@ -267,47 +287,97 @@ class Num(Col):
             self._numSd(count)
         return subtract_mean, subtract_sd
 
-    def numLike(self, x):
-        var = self.sd**2
-        denom = math.sqrt(math.pi*var)
-        num = (2.71828 ** (-(x-self.mu)**2)/(2*var+0.0001))
-        return num/(denom + 10**(-64))+10**(-64)
+    def numLike(self, x, m, cls):
+        var = self.sd ** 2
+        denom = math.sqrt(math.pi * 2* var)
+        num = (2.71828 ** (-(x - self.mu) ** 2) / (2 * var + 0.0001))
+        if m == cls:
+            self.num2(x)
+        return num / (denom + 10 ** (-64)) + 10 ** (-64)
 
 
 class Sym(Col):
     def __init__(self):
         self.mode = ""
         self.most = 0
-        self.cnt = {}
+        self.cnt = collections.defaultdict(int)
         self.entropy = 0
+        self.n = 0
+        self.column = []
 
     def Sym1(self, column):
         self.__init__()
         for element in column:
-            if element in self.cnt:
-                self.cnt.update({element: self.cnt.get(element) + 1})
-            else:
-                self.cnt.update({element: 1})
-            tmp = self.cnt.get(element)
+            self.n += 1
+            self.cnt[element] += 1
+            tmp = self.cnt[element]
             if tmp > self.most:
                 self.most = tmp
                 self.mode = element
-        self.entropy = self.calculateEntropy(column, len(column))
+        self.entropy = self.calculateEntropy(len(column))
         return self.entropy
 
-    def calculateEntropy(self, column, n):
+    def calculateEntropy(self, n):
         entropy = 0
         for element in self.cnt:
             p = self.cnt[element] / n
             entropy -= p * (math.log(p) / math.log(2))
         return entropy
 
+    def Sym2(self, val):
+        self.n += 1
+        self.cnt[val] += 1
+        tmp = self.cnt[val]
+        if tmp > self.most:
+            self.most = tmp
+            self.mode = val
+        self.column.append(val)
+        self.entropy = self.calculateEntropy2()
+        return self.entropy
 
+    def calculateEntropy2(self):
+        entropy = 0
+        for element in self.cnt:
+            p = self.cnt[element] / len(self.column)
+            if p:
+                entropy -= p * (math.log(p) / math.log(2))
+        return entropy
 
+    def symLike(self, x, prior, m, l, cls):
+        f = self.cnt[x]
+        if cls == l:
+            self.Sym2(x)
+        return (f + m * prior) / (self.n + m)
+
+class ZeroR():
+    def __init__(self):
+        self.minimumData = 2
+        self.entries = 0
+        self.gols = []
+        self.symo = Sym()
+        self.abo = Abcd()
+
+    def train(self, t, rows):
+        for idx, row in enumerate(rows):
+            if idx == 0:
+                continue
+            if idx > 2:
+                expected = row[len(row) - 1]
+                self.symo.Sym1(self.gols)
+                result = self.classify()
+                self.abo.abcd1(expected, result)
+            self.gols.append(t[-1][idx - 1])
+
+    def classify(self):
+        return self.symo.mode
+
+    def dump(self):
+        self.abo.report()
 
 class NB(object):
-    def __init__(self, tbl):
+    def __init__(self, tbl, wait):
         self.tbl = tbl
+        self.wait = wait
         self.n = -1
         self.k = 0
         self.m = 1
@@ -315,24 +385,38 @@ class NB(object):
         self.count = 0
         self.abo = Abcd()
         self.tablelist = collections.defaultdict(list)
+        self.cols = collections.defaultdict(list)
 
     def train(self, t, lines):
         for idx, row in enumerate(lines):
-            self.n += 1
-            self.count += 1
             if idx == 0:
                 continue
-            if idx > 3:
+            if row[-1] not in self.cols:
+                for rowIdx, _ in enumerate(row[:-1]):
+                    if self.tbl.indexKeeper[rowIdx] in self.tbl.syms:
+                        self.cols[row[-1]].append(Sym())
+                    elif self.tbl.indexKeeper[rowIdx] in self.tbl.nums:
+                        self.cols[row[-1]].append(Num())
+            if idx <= self.wait:                    
+                for c in range(len(row) - 1):
+                    if self.tbl.indexKeeper[c] in self.tbl.syms:
+                        self.cols[row[-1]][c].Sym2(row[c])
+                    elif self.tbl.indexKeeper[c] in self.tbl.nums:
+                        self.cols[row[-1]][c].num2(row[c])
+            if idx > self.wait:
                 expected = row[-1]
-                result = self.classify(row, "", idx)
-                self.abo.abcd1(expected, result)
-            self.tablelist[row[-1]].append(row[:-1])
+                result = self.classify(row, "")
+                self.abo.abcd1(result, expected)
+            self.n+=1
+            self.tablelist[row[-1]].append(row)
+            self.count += 1
             self.lst.append(row)
 
-    def classify(self, line, guess, idx):
-        most = -10 ^ 64
+    def classify(self, line, guess):
+        most = -10 ** 64
         for cls, row in self.tablelist.items():
-            # guess = guess if guess else cls
+            if not guess:
+                guess = cls
             like = self.bayesThm(line, row, cls)
             if like > most:
                 most = like
@@ -342,34 +426,70 @@ class NB(object):
     def bayesThm(self, line, tbl, cls):
         like = prior = ((len(tbl) + self.k) / (self.n + self.k * len(self.tablelist)))
         like = math.log(like)
-        for c in range(len(line)):
-            if c+1 in self.tbl.syms:
-                print(self.tbl.cols)
-            # else:
-            #     like += math.log(Num.numLike()
-        return 0
+        for c in range(len(line) - 1):
+            if self.tbl.indexKeeper[c] in self.tbl.nums:
+                like += math.log(self.cols[cls][c].numLike(line[c], line[-1], cls))
+            elif self.tbl.indexKeeper[c] in self.tbl.syms:
+                like += math.log(self.cols[cls][c].symLike(line[c], prior, self.m, line[-1], cls))
+        return like
 
     def dump(self):
         self.abo.report()
 
-    def createClasses(self, rows, columns):
-        for idx, row in enumerate(rows):
-            if idx > 0:
-                self.tablelist[row[-1]].append(row[:-1])
-                self.lst.append(row)
-        print(self.tablelist)
-        print(self.lst)
-
-
 if __name__ == "__main__":
+
     print("#---zerorok-----------------------")
+    t = Row("weathernon.csv")
+    rows = []
+    for lst in t.fromString(False, "file"):
+        rows.append(lst)
+
+    c = Col()
+    t = c.colInNum(t.rows)
+
+    zeror = ZeroR()
+    zeror.train(t, rows)
+    print("\nweathernon")
+    zeror.dump()
+
+    t = Row("diabetes.csv")
+    rows = []
+    for lst in t.fromString(False, "file"):
+        rows.append(lst)
+
+    c = Col()
+    t = c.colInNum(t.rows)
+
+    zeror = ZeroR()
+    zeror.train(t, rows)
+    print("\ndiabetes")
+    zeror.dump()
+
+    print("\n\n\n#---Nbok-----------------------")
+    tbl = Row("weathernon.csv")
+    rows = []
+    for lst in tbl.fromString(False, "file"):
+        rows.append(lst)
+    c = Col()
+    num = Num()
+    sym = Sym()
+    tbl.cols = c.colInNum(tbl.rows)
+    abcd = Abcd()
+    nb = NB(tbl,3)
+    nb.train(tbl, rows)
+    print("\nweathernon")
+    nb.dump()
+
+    print()
     tbl = Row("diabetes.csv")
     rows = []
     for lst in tbl.fromString(False, "file"):
         rows.append(lst)
-
     c = Col()
+    
     tbl.cols = c.colInNum(tbl.rows)
-    nb = NB(tbl)
+    abcd = Abcd()
+    nb = NB(tbl,19)
     nb.train(tbl, rows)
-    # rint(tbl.syms)
+    print("\ndiabetes")
+    nb.dump()
