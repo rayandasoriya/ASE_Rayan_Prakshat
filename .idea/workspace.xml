@@ -4,6 +4,7 @@
     <list default="true" id="522197c7-193b-41e4-8a14-58d82aa202a4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw/4/NB.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw/4/NB.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw/4/hw3.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw/4/ZeroR.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,63 +21,6 @@
     <SUITE FILE_PATH="coverage/ASE_Rayan_Prakshat$temp.coverage" NAME="temp Coverage Results" MODIFIED="1567044746967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw/1" />
     <SUITE FILE_PATH="coverage/ASE_Rayan_Prakshat$abcd.coverage" NAME="abcd Coverage Results" MODIFIED="1569178655984" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/hw/3" />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="-1674526419">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="7" />
-          <entry key="project.open.time.0" value="5" />
-          <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.2" value="1" />
-          <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="8" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="csv" value="4" />
-          <entry key="py" value="15" />
-          <entry key="txt" value="3" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="PLAIN_TEXT" value="7" />
-          <entry key="Python" value="15" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="csv" value="3" />
-          <entry key="py" value="3622" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="PLAIN_TEXT" value="3" />
-          <entry key="Python" value="3622" />
-        </counts>
-      </usages-collector>
-    </session>
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/hw/4/NB.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="352" column="18" lean-forward="true" selection-start-line="352" selection-start-column="18" selection-end-line="352" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#9#0" expanded="true" />
-                <marker date="1569189488059" expanded="true" signature="9235:9291" ph="..." />
-                <marker date="1569189488059" expanded="true" signature="9805:9814" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
@@ -84,45 +28,8 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>old_count</find>
-      <find>old_mean</find>
-      <find>old_m2</find>
-      <find>old_sd</find>
-      <find>zipped</find>
-      <find>fromString</find>
-      <find>zeror</find>
-      <find>from</find>
-      <find>Row</find>
-      <find>file</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>n</replace>
-      <replace>mu</replace>
-      <replace>m2</replace>
-      <replace>sd</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/hw/1/temp.py" />
-        <option value="$PROJECT_DIR$/hw/1/out.txt" />
-        <option value="$PROJECT_DIR$/hw/1/hw1.py" />
-        <option value="$PROJECT_DIR$/hw/2/hw2.py" />
-        <option value="$PROJECT_DIR$/hw/3/abcd.py" />
-        <option value="$PROJECT_DIR$/hw/4/diabetes.csv" />
-        <option value="$PROJECT_DIR$/hw/4/weathernon.csv" />
-        <option value="$PROJECT_DIR$/hw/4/abcd.py" />
-        <option value="$PROJECT_DIR$/hw/3/hw3.py" />
-        <option value="$PROJECT_DIR$/hw/4/hw3.py" />
-        <option value="$PROJECT_DIR$/hw/4/NB.py" />
-      </list>
-    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
@@ -130,54 +37,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="617" />
-    <option name="y" value="29" />
-    <option name="width" value="1440" />
-    <option name="height" value="808" />
-  </component>
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="ASE_Rayan_Prakshat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ASE_Rayan_Prakshat" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ASE_Rayan_Prakshat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ASE_Rayan_Prakshat" type="462c0819:PsiDirectoryNode" />
-              <item name="hw" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ASE_Rayan_Prakshat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ASE_Rayan_Prakshat" type="462c0819:PsiDirectoryNode" />
-              <item name="hw" type="462c0819:PsiDirectoryNode" />
-              <item name="2" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ASE_Rayan_Prakshat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ASE_Rayan_Prakshat" type="462c0819:PsiDirectoryNode" />
-              <item name="hw" type="462c0819:PsiDirectoryNode" />
-              <item name="3" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="ASE_Rayan_Prakshat" type="b2602c69:ProjectViewProjectNode" />
-              <item name="ASE_Rayan_Prakshat" type="462c0819:PsiDirectoryNode" />
-              <item name="hw" type="462c0819:PsiDirectoryNode" />
-              <item name="4" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-    </panes>
-  </component>
+  <component name="ProjectId" id="1RIhgMfXmNtVebp7o6yMUDIFkeA" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -201,7 +61,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.NB">
+  <component name="RunManager" selected="Python.NB2">
     <configuration name="NB" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ASE_Rayan_Prakshat" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -216,6 +76,27 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw/4/NB.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="NB2" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ASE_Rayan_Prakshat" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw/4" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw/4/NB2.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -246,28 +127,6 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="hw2" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="ASE_Rayan_Prakshat" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/hw/2" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw/2/hw2.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="hw3 (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ASE_Rayan_Prakshat" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -281,7 +140,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw/4/hw3.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/hw/4/ZeroR.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -313,19 +172,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.hw2" />
       <item itemvalue="Python.hw3" />
       <item itemvalue="Python.abcd" />
       <item itemvalue="Python.hw3 (1)" />
       <item itemvalue="Python.NB" />
+      <item itemvalue="Python.NB2" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.NB2" />
         <item itemvalue="Python.NB" />
         <item itemvalue="Python.hw3 (1)" />
         <item itemvalue="Python.hw3" />
         <item itemvalue="Python.abcd" />
-        <item itemvalue="Python.hw2" />
       </list>
     </recent_temporary>
   </component>
@@ -342,119 +201,18 @@
     </task>
     <servers />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
-    <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1795422" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.38072288" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.32771084" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/hw/1/temp.py" />
-    <entry file="file://$PROJECT_DIR$/hw/2/hw2_try.py" />
-    <entry file="file://$PROJECT_DIR$/hw/3/output3.txt" />
-    <entry file="file://$PROJECT_DIR$/hw/1/out.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/1/hw1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-135">
-          <caret line="49" column="35" selection-start-line="49" selection-start-column="35" selection-end-line="49" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/2/hw2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="167" column="17" selection-start-line="167" selection-start-column="17" selection-end-line="167" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/3/abcd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="60" selection-start-line="60" selection-end-line="60" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/4/weathernon.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="27" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/4/diabetes.csv">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="19" selection-start-column="19" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/4/abcd.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1200">
-          <caret line="80" column="51" lean-forward="true" selection-start-line="80" selection-start-column="51" selection-end-line="80" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/4/hw3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="332" lean-forward="true" selection-end-line="351" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/3/hw3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3028">
-          <caret line="100" selection-start-line="100" selection-end-line="103" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/hw/4/NB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="352" column="18" lean-forward="true" selection-start-line="352" selection-start-column="18" selection-end-line="352" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#9#0" expanded="true" />
-            <marker date="1569189488059" expanded="true" signature="9235:9291" ph="..." />
-            <marker date="1569189488059" expanded="true" signature="9805:9814" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

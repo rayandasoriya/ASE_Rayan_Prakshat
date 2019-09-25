@@ -250,7 +250,23 @@ class Num(Col):
             self._numSd(count)
         return round(self.mu, 2), round(self.sd, 2), round(self.m2, 2), count, self.maxV, self.minV
 
+    def num2(self, val):
+        count = 0
+        if val > self.maxV:
+            self.maxV = val
+        if val < self.minV:
+            self.minV = val
+        count += 1
+        delta = val - self.mu
+        self.mu += (delta / count)
+        delta2 = val - self.mu
+        # Calculation of square mean distance
+        self.m2 += delta * delta2
+        self._numSd(count)
+        return round(self.mu, 2), round(self.sd, 2), round(self.m2, 2), count, self.maxV, self.minV
+
     # Method to remove the element and update mean and standard deviation
+
     def numLess(self, array):
         subtract_mean = []
         subtract_sd = []
@@ -268,41 +284,64 @@ class Num(Col):
         return subtract_mean, subtract_sd
 
     def numLike(self, x):
-        var = self.sd**2
-        denom = math.sqrt(math.pi*var)
-        num = (2.71828 ** (-(x-self.mu)**2)/(2*var+0.0001))
-        return num/(denom + 10**(-64))+10**(-64)
+        var = self.sd ** 2
+        denom = math.sqrt(math.pi * var)
+        num = (2.71828 ** (-(x - self.mu) ** 2) / (2 * var + 0.0001))
+        self.num2(x)
+        return num / (denom + 10 ** (-64)) + 10 ** (-64)
 
 
 class Sym(Col):
     def __init__(self):
         self.mode = ""
         self.most = 0
-        self.cnt = {}
+        self.cnt = collections.defaultdict(int)
         self.entropy = 0
+        self.n = 0
+        self.column = []
 
     def Sym1(self, column):
         self.__init__()
         for element in column:
-            if element in self.cnt:
-                self.cnt.update({element: self.cnt.get(element) + 1})
-            else:
-                self.cnt.update({element: 1})
-            tmp = self.cnt.get(element)
+            self.n += 1
+            self.cnt[element] += 1
+            tmp = self.cnt[element]
             if tmp > self.most:
                 self.most = tmp
                 self.mode = element
-        self.entropy = self.calculateEntropy(column, len(column))
+        self.entropy = self.calculateEntropy(len(column))
         return self.entropy
 
-    def calculateEntropy(self, column, n):
+    def calculateEntropy(self, n):
         entropy = 0
         for element in self.cnt:
             p = self.cnt[element] / n
             entropy -= p * (math.log(p) / math.log(2))
         return entropy
 
+    def Sym2(self, val):
+        self.n += 1
+        self.cnt[val] += 1
+        tmp = self.cnt[val]
+        if tmp > self.most:
+            self.most = tmp
+            self.mode = val
+        self.column.append(val)
+        self.entropy = self.calculateEntropy2()
+        return self.entropy
 
+    def calculateEntropy2(self):
+        entropy = 0
+        for element in self.cnt:
+            p = self.cnt[element] / len(self.column)
+            entropy -= p * (math.log(p) / math.log(2))
+        return entropy
+
+    def symLike(self, x, prior, m):
+        f = self.cnt[x]
+        print(self.cnt)
+        self.Sym2(x)
+        return (f + m * prior) / (self.n + m)
 
 
 class NB(object):
@@ -315,24 +354,35 @@ class NB(object):
         self.count = 0
         self.abo = Abcd()
         self.tablelist = collections.defaultdict(list)
+        self.cols = []
 
     def train(self, t, lines):
+
         for idx, row in enumerate(lines):
+            if idx == 0:
+                for rowIdx, val in enumerate(row):
+                    if rowIdx + 1 in tbl.syms:
+                        self.cols.append(Sym())
+                    else:
+                        self.cols.append(Num())
+                print(self.cols)
+                continue
+            if idx <= 4:
+                for c in range(len(row) - 1):
+                    print(self.cols[c])
+                    self.cols[c].Sym2(row[c])
+            if idx > 4:
+                expected = row[-1]
+                result = self.classify(row, "")
+                self.abo.abcd1(expected, result)
+            self.tablelist[row[-1]].append(row)
             self.n += 1
             self.count += 1
-            if idx == 0:
-                continue
-            if idx > 3:
-                expected = row[-1]
-                result = self.classify(row, "", idx)
-                self.abo.abcd1(expected, result)
-            self.tablelist[row[-1]].append(row[:-1])
             self.lst.append(row)
 
-    def classify(self, line, guess, idx):
+    def classify(self, line, guess):
         most = -10 ^ 64
         for cls, row in self.tablelist.items():
-            # guess = guess if guess else cls
             like = self.bayesThm(line, row, cls)
             if like > most:
                 most = like
@@ -341,13 +391,14 @@ class NB(object):
 
     def bayesThm(self, line, tbl, cls):
         like = prior = ((len(tbl) + self.k) / (self.n + self.k * len(self.tablelist)))
+        # print(len(tbl)," ", self.k, " ", self.n, " ", len(self.tablelist), like)
         like = math.log(like)
-        for c in range(len(line)):
-            if c+1 in self.tbl.syms:
-                print(self.tbl.cols)
-            # else:
-            #     like += math.log(Num.numLike()
-        return 0
+        for c in range(len(line) - 1):
+            if c + 1 in self.tbl.nums:
+                like += math.log(num.numLike(self.cols[c], line[c]))
+            else:
+                like += math.log(Sym.symLike(self.cols[c], line[c], prior, self.m))
+        return like
 
     def dump(self):
         self.abo.report()
@@ -363,13 +414,16 @@ class NB(object):
 
 if __name__ == "__main__":
     print("#---zerorok-----------------------")
-    tbl = Row("diabetes.csv")
+    tbl = Row("weathernon.csv")
     rows = []
     for lst in tbl.fromString(False, "file"):
         rows.append(lst)
 
     c = Col()
+    num = Num()
+    sym = Sym()
     tbl.cols = c.colInNum(tbl.rows)
+
     nb = NB(tbl)
     nb.train(tbl, rows)
-    # rint(tbl.syms)
+    print(tbl.syms)
