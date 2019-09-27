@@ -374,13 +374,13 @@ class ZeroR():
     def dump(self):
         self.abo.report()
 
-class NB(object):
+class NB:
     def __init__(self, tbl, wait):
         self.tbl = tbl
         self.wait = wait
         self.n = -1
-        self.k = 0
-        self.m = 1
+        self.k = 1
+        self.m = 0.001
         self.lst = []
         self.count = 0
         self.abo = Abcd()
@@ -389,6 +389,7 @@ class NB(object):
 
     def train(self, t, lines):
         for idx, row in enumerate(lines):
+            self.n+=1
             if idx == 0:
                 continue
             if row[-1] not in self.cols:
@@ -406,17 +407,15 @@ class NB(object):
             if idx > self.wait:
                 expected = row[-1]
                 result = self.classify(row, "")
-                self.abo.abcd1(result, expected)
-            self.n+=1
+                self.abo.abcd1(expected, result)
             self.tablelist[row[-1]].append(row)
             self.count += 1
             self.lst.append(row)
 
     def classify(self, line, guess):
-        most = -10 ** 64
+        most = float('-inf')
         for cls, row in self.tablelist.items():
-            if not guess:
-                guess = cls
+            guess = cls if not guess else guess
             like = self.bayesThm(line, row, cls)
             if like > most:
                 most = like
