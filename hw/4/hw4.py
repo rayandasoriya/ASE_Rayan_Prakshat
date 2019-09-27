@@ -380,7 +380,7 @@ class NB:
         self.wait = wait
         self.n = -1
         self.k = 1
-        self.m = 0.001
+        self.m = 2
         self.lst = []
         self.count = 0
         self.abo = Abcd()
