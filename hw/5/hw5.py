@@ -1,3 +1,4 @@
+import operator
 import re
 import zipfile
 import random
@@ -193,14 +194,14 @@ class Col(Tbl):
 
     def __init__(self):
         # Change in array
-        self.n = []
+        self.count = []
         self.mean = []
         self.sd = []
         self.m2 = []
         self.maxV = []
         self.minV = []
         self.mode = []
-        self.entropy = []
+        self.sd = []
         self.most = []
         self.indexKeeper = {}
         self.dictValues = []
@@ -226,6 +227,9 @@ class Num(Col):
         self.maxV = -1 * 10 ** 32
         self.minV = 1 * 10 ** 32
         self.count = 0
+        self.numList = []
+        self.lo = 10 ** 32
+        self.hi = -1 * self.lo
 
     # Function to calculate the SD using variance
     def _numSd(self, count):
@@ -239,7 +243,7 @@ class Num(Col):
             self.sd = 0
         else:
             self.sd = (self.m2 / (self.count - 1)) ** 0.5
-        
+
     # Method to incrementally update mean and standard deviation
     def num1(self, array):
         count = 0
@@ -258,6 +262,9 @@ class Num(Col):
         return round(self.mu, 2), round(self.sd, 2), round(self.m2, 2), count, self.maxV, self.minV
 
     def num2(self, val):
+        self.lo = self.lo if self.lo<val else val
+        self.hi = self.hi if self.hi> val else val
+        self.numList.append(val)
         if val > self.maxV:
             self.maxV = val
         if val < self.minV:
@@ -269,7 +276,7 @@ class Num(Col):
         # Calculation of square mean distance
         self.m2 += delta * delta2
         self._numSd2()
-        
+
     # Method to remove the element and update mean and standard deviation
     def numLess(self, array):
         subtract_mean = []
@@ -287,13 +294,33 @@ class Num(Col):
             self._numSd(count)
         return subtract_mean, subtract_sd
 
+    def numLess2(self, index):
+        if self.count < 2:
+            self.sd = 0
+            return
+
+        self.count -= 1
+        value = self.numList[index]
+        self.numList.pop(index)
+        delta = value - self.mu
+        self.mu -= delta / self.count
+        self.m2 -= delta * (value - self.mu)
+        if self.m2 < 0 or self.count < 2:
+            self.sd = 0
+        else:
+            self._numSd2()
+
     def numLike(self, x, m, cls):
         var = self.sd ** 2
-        denom = math.sqrt(math.pi * 2* var)
+        denom = math.sqrt(math.pi * 2 * var)
         num = (2.71828 ** (-(x - self.mu) ** 2) / (2 * var + 0.0001))
         if m == cls:
             self.num2(x)
         return num / (denom + 10 ** (-64)) + 10 ** (-64)
+
+    def xpect(self, other):
+        n = self.count + other.count
+        return (self.count / n * self.sd) + (other.count / n * other.sd)
 
 
 class Sym(Col):
@@ -301,21 +328,22 @@ class Sym(Col):
         self.mode = ""
         self.most = 0
         self.cnt = collections.defaultdict(int)
-        self.entropy = 0
-        self.n = 0
+        self.sd = 0
+        self.count = 0
         self.column = []
+        self.symList = []
 
     def Sym1(self, column):
         self.__init__()
         for element in column:
-            self.n += 1
+            self.count += 1
             self.cnt[element] += 1
             tmp = self.cnt[element]
             if tmp > self.most:
                 self.most = tmp
                 self.mode = element
-        self.entropy = self.calculateEntropy(len(column))
-        return self.entropy
+        self.sd = self.calculateEntropy(len(column))
+        return self.sd
 
     def calculateEntropy(self, n):
         entropy = 0
@@ -325,15 +353,20 @@ class Sym(Col):
         return entropy
 
     def Sym2(self, val):
-        self.n += 1
+        self.symList.append(val)
+        self.count += 1
         self.cnt[val] += 1
         tmp = self.cnt[val]
         if tmp > self.most:
             self.most = tmp
             self.mode = val
         self.column.append(val)
-        self.entropy = self.calculateEntropy2()
-        return self.entropy
+        self.sd = self.calculateEntropy2()
+        return self.sd
+
+    def xpect(self, other):
+        n = self.count + other.count
+        return (self.count / n * self.sd) + (other.count / n * other.sd)
 
     def calculateEntropy2(self):
         entropy = 0
@@ -347,7 +380,18 @@ class Sym(Col):
         f = self.cnt[x]
         if cls == l:
             self.Sym2(x)
-        return (f + m * prior) / (self.n + m)
+        return (f + m * prior) / (self.count + m)
+
+    def symLess(self, v):
+        self.count -= 1
+        self.cnt[v] -= 1
+        if not self.cnt[v]:
+            del self.cnt[v]
+        if self.cnt:
+            self.mode = max(self.cnt.items(), key=operator.itemgetter(1))[0]
+            self.most = self.cnt[self.mode]
+            self.symList.remove(v)
+
 
 class ZeroR():
     def __init__(self):
@@ -374,6 +418,7 @@ class ZeroR():
     def dump(self):
         self.abo.report()
 
+
 class NB:
     def __init__(self, tbl, wait):
         self.tbl = tbl
@@ -389,7 +434,7 @@ class NB:
 
     def train(self, t, lines):
         for idx, row in enumerate(lines):
-            self.n+=1
+            self.n += 1
             if idx == 0:
                 continue
             if row[-1] not in self.cols:
@@ -398,7 +443,7 @@ class NB:
                         self.cols[row[-1]].append(Sym())
                     elif self.tbl.indexKeeper[rowIdx] in self.tbl.nums:
                         self.cols[row[-1]].append(Num())
-            if idx <= self.wait:                    
+            if idx <= self.wait:
                 for c in range(len(row) - 1):
                     if self.tbl.indexKeeper[c] in self.tbl.syms:
                         self.cols[row[-1]][c].Sym2(row[c])
@@ -434,6 +479,7 @@ class NB:
 
     def dump(self):
         self.abo.report()
+
 
 if __name__ == "__main__":
 
@@ -474,7 +520,7 @@ if __name__ == "__main__":
     sym = Sym()
     tbl.cols = c.colInNum(tbl.rows)
     abcd = Abcd()
-    nb = NB(tbl,3)
+    nb = NB(tbl, 3)
     nb.train(tbl, rows)
     print("\nweathernon")
     nb.dump()
@@ -485,10 +531,10 @@ if __name__ == "__main__":
     for lst in tbl.fromString(False, "file"):
         rows.append(lst)
     c = Col()
-    
+
     tbl.cols = c.colInNum(tbl.rows)
     abcd = Abcd()
-    nb = NB(tbl,19)
+    nb = NB(tbl, 19)
     nb.train(tbl, rows)
     print("\ndiabetes")
     nb.dump()
