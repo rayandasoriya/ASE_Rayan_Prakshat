@@ -8,15 +8,14 @@ def main():
     tbl = Tbl("diabetes.csv")
     rows = []
     for lst in tbl.fromString(False, "file"):
+        if lst[-1] == 'tested_negative':
+            lst[-1] = 'b'
+        else:
+            lst[-1] = 'a'
         rows.append(lst)
     c = Col()
-
     tbl.cols = c.colInNum(tbl.rows)
-    # div2 = Div2(tbl.cols, "first", "last", "Num")
-    # div2.xSplit()
-
-    tbl.showt(tbl.decisionTree())
-
+    tbl.decisionTree()
 
 
 if __name__ == '__main__':

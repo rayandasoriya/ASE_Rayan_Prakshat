@@ -7,6 +7,7 @@ class Div2(Pretty):
     def __init__(i, lst, x=0, y=6, yis="Num"):
         i.yis = yis
         i.x_lst, i.y_lst = i.getObjects(sorted(lst, key=lambda xyz: xyz[6]), yis)
+        print(i.y_lst.mode)
         i.b4 = i.y_lst
         i._lst = i.y_lst.numList if i.yis == "Num" else i.y_lst.symList
         i.gain = 0
@@ -28,9 +29,9 @@ class Div2(Pretty):
         for i in data:
             x_lst.num2(i[0])
             if yis == "Num":
-                y_lst.num2(i[1])
+                y_lst.num2(i[6]) #change
             else:
-                y_lst.Sym2(i[1])
+                y_lst.Sym2(i[6])
         return x_lst, y_lst
 
     def xis(i, lst):

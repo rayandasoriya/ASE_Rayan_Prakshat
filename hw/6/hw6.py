@@ -22,6 +22,7 @@ class Tbl:
         self.question = []
         self.w = {}
         self.indexKeeper = {}
+        self.tracker = []
 
     def dump(self, c):
         columns = self.cols
@@ -212,21 +213,22 @@ class Tbl:
             self.cols.insert(i, c)
 
     def decisionTree(i):
-        a = Div2(i.rows[1:])
-        return i.tree(i.rows, i.cols[-1], a, 'Sym')
+        return i.tree(i.rows, i.cols[-1], 'Sym')
 
     def regressionTree(i):
-        return i.tree(i.rows, i.cols[-1], a, 'Num')
+        return i.tree(i.rows, i.cols[-1], 'Num')
 
-    def tree(i, lst, y, a, yis, lvl=0):
-        if len(lst) >= 8:
+    def tree(i, lst, y, yis, lvl=0):
+
+        if len(lst) >= 8 and lvl < 4:
             lo, cut, call = 10 ** 32, None, None
             lastcolumn = i.cols[:-1]
             count = 0
             idx = 0
+            kk = None
             for col1 in lastcolumn:
-                x = col1
-                a = Div2(lst[1:], count, len(i.cols) - 1, yis)
+                # x = lambda row: row.cells[col1.pos]
+                kk = a = Div2(lst[1:], count, len(i.cols) - 1, yis)
                 cut1 = a.cut
                 lo1 = a.best
                 count += 1
@@ -234,15 +236,10 @@ class Tbl:
                     if lo1 < lo:
                         cut, lo, col, idx = cut1, lo1, col1, count
             if cut:
-                print("aaya")
-                x = lambda row: row.cells[col.pos]
-                return [o(lo=lo,
-                          hi=hi,
-                          n=len(kids),
-                          txt=col.txt,
-                          kids=i.tree(kids, y, yis, a, lvl + 1)
-                          ) for lo, hi, kids in col.split(lst, x, cut)]
-
+                x = i.cols[idx]
+                return i.tree(lst[:], y, yis, lvl + 1)
+            print(a.yis1(lst[1:], idx).most)
+            i.tracker.append(a.yis1(lst[1:], idx).most)
             return a.yis1(lst[1:], idx)
 
     def showt(self, tree, pre='', rnd=THE.tree.rnd):
