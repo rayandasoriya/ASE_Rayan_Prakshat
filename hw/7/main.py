@@ -10,7 +10,7 @@ def main():
     for lst in tbl.fromString(False, "file"):
         if lst[-1] == 'tested_negative':
             lst[-1] = 'b'
-        else:
+        if lst[-1] == 'tested_positive':
             lst[-1] = 'a'
         rows.append(lst)
     c = Col()
