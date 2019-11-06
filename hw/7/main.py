@@ -1,5 +1,5 @@
 import csv
-from hw6 import *
+from hw7 import *
 from div import *
 from decisionTree import decisionTree
 

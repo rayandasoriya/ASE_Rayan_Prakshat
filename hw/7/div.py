@@ -1,6 +1,6 @@
 from lib import *
-import hw6
-from hw6 import *
+import hw7
+from hw7 import *
 
 
 class Div2(Pretty):
@@ -23,11 +23,11 @@ class Div2(Pretty):
         i.gain /= len(i._lst)
 
     def getObjects(i, data, yis, x, y):
-        x_lst = hw6.Num()
+        x_lst = hw7.Num()
         if yis == "Num":
-            y_lst = hw6.Num()
+            y_lst = hw7.Num()
         else:
-            y_lst = hw6.Sym()
+            y_lst = hw7.Sym()
         for i in data:
             x_lst.num2(i[x])
             if yis == "Num":
@@ -37,19 +37,19 @@ class Div2(Pretty):
         return x_lst, y_lst
 
     def xis(i, lst):
-        num = hw6.Num()
+        num = hw7.Num()
         for i in lst:
             num.num2(i)
         return num
 
     def yis1(i, lst, key):
-        sym = hw6.Sym()
+        sym = hw7.Sym()
         for row in lst:
             sym.Sym2(row[key])
         return sym
 
     def symSplit(i, lst):
-        sym = hw6.Sym()
+        sym = hw7.Sym()
         for i in lst:
             sym.Sym2(i)
         return sym
