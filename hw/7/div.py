@@ -2,13 +2,14 @@ from lib import *
 import hw6
 from hw6 import *
 
+
 class Div2(Pretty):
 
     def __init__(i, lst, x=0, y=6, yis="Num"):
         i.yis = yis
-        i.x_lst, i.y_lst = i.getObjects(sorted(lst, key=lambda xyz: xyz[6]), yis)
-        print(i.y_lst.mode)
+        i.x_lst, i.y_lst = i.getObjects(sorted(lst, key=lambda xyz: xyz[y]), yis, x, y)
         i.b4 = i.y_lst
+        # print(i.x_lst.sd,i.y_lst.mode)
         i._lst = i.y_lst.numList if i.yis == "Num" else i.y_lst.symList
         i.gain = 0
         i.step = int(i.y_lst.count ** THE.div.min)
@@ -17,21 +18,22 @@ class Div2(Pretty):
         i.ranges = []
         i.xranges = []
         i.epsilon = i.b4.sd * THE.div.cohen
-        i.rank, i.cut, i.best = i.__divide(x, y, i.b4, 1)
+        # print(i.epsilon)
+        i.rank, i.cut, i.best = i.__divide(1, i.y_lst.count, i.b4, 1)
         i.gain /= len(i._lst)
 
-    def getObjects(i, data, yis):
+    def getObjects(i, data, yis, x, y):
         x_lst = hw6.Num()
         if yis == "Num":
             y_lst = hw6.Num()
         else:
-            y_lst =hw6. Sym()
+            y_lst = hw6.Sym()
         for i in data:
-            x_lst.num2(i[0])
+            x_lst.num2(i[x])
             if yis == "Num":
-                y_lst.num2(i[6]) #change
+                y_lst.num2(i[y])  # change
             else:
-                y_lst.Sym2(i[6])
+                y_lst.Sym2(i[y])
         return x_lst, y_lst
 
     def xis(i, lst):
@@ -57,6 +59,7 @@ class Div2(Pretty):
         for j in i.ranges:
             i.xranges.append(i.xis(i.x_lst.numList[start:start + j.count]))
             start += j.count
+        return 1, len(i.ranges)
 
     def printSplits(i):
         if i.yis == "Num":
@@ -64,7 +67,7 @@ class Div2(Pretty):
             for k in range(len(i.ranges)):
                 x = i.xranges[k]
                 y = i.ranges[k]
-                print(k + 1,"  x.n\t" + str(x.count) + " | x.lo \t" + str(
+                print(k + 1, "  x.n\t" + str(x.count) + " | x.lo \t" + str(
                     round(x.lo, 5)) + " | x.hi \t" + str(
                     round(x.hi, 5)) + " | y.lo \t" + str(round(y.lo, 5)) + " | y.hi \t" + str(round(y.hi, 5)))
         else:
@@ -87,7 +90,6 @@ class Div2(Pretty):
             i.start = first(b4.numList)
         else:
             l = i.symSplit([])
-            print(l)
             r = i.symSplit(i._lst[lo:hi])
             i.stop = last(b4.symList)
             i.start = first(b4.symList)
@@ -99,7 +101,7 @@ class Div2(Pretty):
                 print(i._lst[j])
                 l.num2(i._lst[j])
                 r.numLess2(0)
-                # print(r.numList)
+                print(r.numList)
             else:
                 l.Sym2(i._lst[j])
                 r.symLess(i._lst[j])

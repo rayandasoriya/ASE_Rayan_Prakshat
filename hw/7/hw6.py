@@ -547,6 +547,7 @@ class NB:
 
 if __name__ == "__main__":
 
+    print("#---zerorok-----------------------")
     t = Row("weathernon.csv")
     rows = []
     for lst in t.fromString(False, "file"):
