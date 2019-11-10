@@ -2,12 +2,12 @@ import copy
 
 
 class decisionTree:
-    def __init__(self):
-        self.MIN_ROWS = 9
+    def __init__(i):
+        i.MIN_ROWS = 9
 
-    def createDecisionTree(self, tbl, labeltype):
+    def createDecisionTree(i, tbl, labeltype):
         s = set()
-        finalDT = self.recurse(tbl, s, 1, labeltype)
+        finalDT = i.recurse(tbl, s, 1, labeltype)
         finalDT.setLevel(0)
         finalDT.makeRoot()
         if labeltype == 'sym':
@@ -16,7 +16,7 @@ class decisionTree:
         else:
             finalDT.printTree(finalDT, labeltype, 0)
 
-    def recurse(self, tbl, rows, level, labeltype):
+    def recurse(i, tbl, rows, level, labeltype):
         newtbl = copy.deepcopy(tbl)
         i, adj = 0, 0
         count = len(newtbl.rows)
@@ -29,7 +29,7 @@ class decisionTree:
         if labeltype == 'sym':
             labelsym = Sym()
             labelsym.Sym1(newtbl.cols[-1])
-            if len(newtbl.rows) > self.MIN_ROWS and labelsym.most < len(newtbl.rows):
+            if len(newtbl.rows) > i.MIN_ROWS and labelsym.most < len(newtbl.rows):
                 node = decisionTree(labeltype)
                 div2 = Div2(sym, "first", "last", labeltype)
                 div2.xSplit()

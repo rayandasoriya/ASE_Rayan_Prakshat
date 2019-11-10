@@ -4,7 +4,7 @@ Baseline utilities: must be loaded before anything else.
 
 
 class Pretty:
-    """A class that pretty prins itself, attributes sorted alphabetically,
+    """A class that pretty prins iti, attributes sorted alphabetically,
     ignoring 'private' attributes (those starting with '_')."""
 
     def __repr__(i):

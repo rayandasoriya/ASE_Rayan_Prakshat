@@ -8,7 +8,6 @@ import jsonpickle
 import json
 import sys
 
-
 class SYMBOLS:
     sep = ","
     num = "$"
@@ -21,7 +20,6 @@ class SYMBOLS:
 def compiler(x):
     "return something that can compile strings of type x"
     """return something that can compile strings"""
-
     def num(z):
         f = float(z)
         i = int(f)
@@ -109,7 +107,6 @@ class MyID:
         self.oid = MyID.oid
         return self.oid
 
-
 class Row(MyID):
     "Row class describing each row in data"
 
@@ -118,12 +115,22 @@ class Row(MyID):
         self.cells = cells
         self.cooked = cooked
         self.dom = dom
-
+    
+    def dominates(self, j, goals):
+        z = 0.00001
+        s1, s2, n = z, z, z+len(goals)
+        for goal in goals:
+            if isinstance(goal, Num):
+                a,b = self.cells[goal.position], j.cells[goal.position]
+                a,b = goal.norm(a), goal.norm(b)
+                s1 -= 10**(goal.weight * (a-b)/n)
+                s2 -= 10**(goal.weight * (b-a)/n)
+        return (s1/n - s2/n)
 
 class Col(MyID):
     "Col class for each column in data"
 
-    def __init__(self, column_name, position, weight, rank=0):
+    def __init__(self, column_name, position, weight, rank = 0):
         self.generate_oid()
         self.column_name = column_name
         self.position = position
@@ -136,14 +143,14 @@ class Col(MyID):
 class Num(Col):
     "Num class as a subclass of Col"
 
-    def __init__(self, column_name="", position=0, weight=1):
+    def __init__(self, column_name = "", position = 0, weight = 1):
         super().__init__(column_name, position, weight)
-        self.mu = 0  # mean
-        self.m2 = 0  # square diff
+        self.mu = 0     # mean
+        self.m2 = 0     # square diff
         self.lo = 10 ** 32
         self.hi = -1 * 10 ** 32
         self.sd = 0
-
+    
     def add_new_value(self, number):
         "Add new value to the list and update the paramaters"
         self.all_values.append(number)
@@ -162,13 +169,13 @@ class Num(Col):
         "Remove a value from behind the list"
         number = self.all_values.pop()
         self.delete_value(number)
-
+    
     def delete_from_front(self):
         "Remove a value from front of the list"
         number = self.all_values.pop(0)
         self.delete_value(number)
 
-    def delete_value(self, number):
+    def delete_value(self,number):
         if self.n < 2:
             self.n, self.mu, self.m2 = 0, 0, 0
         else:
@@ -177,24 +184,27 @@ class Num(Col):
             self.mu -= d / self.n
             self.m2 -= d * (number - self.mu)
             self.sd = 0 if self.n < 2 else (self.m2 / (self.n - 1 + 10 ** -32)) ** 0.5
-
+    
     def num_like(self, x):
         "Determines how much Num class likes a symbol"
-        var = self.sd ** 2
-        denom = (3.14159 * 2 * var) ** 0.5
-        num = 2.71828 ** (-(x - self.mu) ** 2 / (2 * var + 0.0001))
-        return num / (denom + 10 ** -64)
+        var = self.sd**2
+        denom = (3.14159*2*var)**0.5
+        num   =  2.71828**(-(x-self.mu)**2/(2*var+0.0001))
+        return num/(denom + 10**-64)
 
     def variety(self):
         return self.sd
-
+    
     def xpect(self, second_class):
         total_n = self.n + second_class.n
-        return (self.sd * self.n / total_n) + (second_class.sd * second_class.n / total_n)
+        return (self.sd*self.n/total_n) + (second_class.sd*second_class.n/total_n)
 
-    def dist(self, val1, val2):
+    def norm(self, val):
+        return (val - self.lo) / (self.hi - self.lo + 10**-32)
+
+    def dist(self, val1,val2):
         "Calculate distance between 2 rows"
-        norm = lambda z: (z - self.lo) / (self.hi - self.lo + 10 ** -32)
+        norm = lambda z: (z - self.lo) / (self.hi - self.lo + 10**-32)
         if val1 == SYMBOLS.skip:
             if val2 == SYMBOLS.skip: return 1
             val2 = norm(val2)
@@ -205,19 +215,19 @@ class Num(Col):
                 val2 = 0 if val1 > 0.5 else 1
             else:
                 val2 = norm(val2)
-        return abs(val1 - val2)
+        return abs(val1-val2)
 
 
 class Sym(Col):
     "Sym class as a subclass of Col"
 
-    def __init__(self, column_name="", position=0, weight=1):
+    def __init__(self, column_name = "", position = 0, weight = 1):
         super().__init__(column_name, position, weight)
         self.counts_map = defaultdict(int)
         self.mode = None
         self.most = 0
         self.entropy = None
-
+    
     def add_new_value(self, value):
         "Add new value to column"
         self.all_values.append(value)
@@ -226,7 +236,7 @@ class Sym(Col):
         if self.counts_map[value] > self.most:
             self.most = self.counts_map[value]
             self.mode = value
-
+    
     def delete_from_behind(self):
         "Remove a character from front"
         char = self.all_values.pop()
@@ -236,14 +246,14 @@ class Sym(Col):
         "Remove a character from front"
         char = self.all_values.pop(0)
         self.delete_value(char)
-
+    
     def delete_value(self, char):
         if self.n < 2:
-            self.mode, self.n, self.entropy, self.most = None, 0, None, 0
+            self.mode, self.n,self.entropy,self.most = None, 0, None, 0
         else:
             self.n -= 1
             if char == self.mode:
-                # change mode
+                #change mode
                 self.counts_map[char] -= 1
                 temp_count = 0
                 temp_char = None
@@ -259,16 +269,16 @@ class Sym(Col):
     def calculate_entropy(self):
         "Calculate Entropy"
         entropy = 0
-        for key, value in self.counts_map.items():
+        for key,value in self.counts_map.items():
             if value != 0:
-                probability = float(value / self.n)
-                entropy -= probability * log2(probability)
+                probability = float(value/self.n)
+                entropy -= probability*log2(probability)
         self.entropy = entropy
 
-    def sym_like(self, x, prior, m=2):
+    def sym_like(self, x, prior, m = 2):
         "Calculates how much a symbol is liked by Sym Class"
         freq = self.counts_map[x] if x in self.counts_map else 0
-        return (freq + m * prior) / (self.n + m)
+        return (freq + m*prior) / (self.n + m)
 
     def test(self):
         "Test Sym Class"
@@ -276,8 +286,8 @@ class Sym(Col):
         for val in input_string:
             self.add_new_value(val)
         self.calculate_entropy()
-        print(round(self.entropy, 2))
-
+        print (round(self.entropy,2))
+    
     def variety(self):
         if not self.entropy:
             self.calculate_entropy()
@@ -289,51 +299,51 @@ class Sym(Col):
         if not second_class.entropy:
             second_class.calculate_entropy()
         total_n = self.n + second_class.n
-        return (self.entropy * self.n / total_n) + (second_class.entropy * second_class.n / total_n)
-
-    def dist(self, val1, val2):
+        return (self.entropy*self.n/total_n) + (second_class.entropy*second_class.n/total_n)
+    
+    def dist(self, val1,val2):
         "Calculate distance between 2 rows"
         if val1 == SYMBOLS.skip and val2 == SYMBOLS.skip: return 1
-        if x != y: return 1
+        if x != y: return 1 
         return 0
-
 
 class Tbl:
     "Table class for driving the tables comprising of Rows and Cols"
 
     def __init__(self):
-        self.rows = list()  # Will hold Row objects for each row
-        self.cols = list()  # Will hold Num objects for each column
-        self.col_info = {'goals': [], 'nums': [], 'syms': [], 'xs': [], 'negative_weight': []}
+        self.rows = list() #Will hold Row objects for each row
+        self.cols = list() #Will hold Num objects for each column
+        self.col_info = {'goals': [], 'nums': [], 'syms': [], 'xs' : [], 'negative_weight' : []}
 
     def dump(self):
         # replaced manual printing with JSON output
         print("Table Object")
         # Single line output to JSON
         print(json.dumps(json.loads(jsonpickle.encode(self)), indent=4, sort_keys=True))
-
-    def add_column(self, column):
-        for idx, col_name in enumerate(column):
-            if bool(re.search(r"[<>$]", col_name)):
+            
+    def addCol(self, column):
+        for idx,col_name in enumerate(column):
+            if bool(re.search(r"[<>$]",col_name)):
                 self.col_info['nums'].append(idx)
                 if bool(re.search(r"[<]", col_name)):
                     # Weight should be -1 for columns with < in their name
                     self.col_info['negative_weight'].append(idx)
-                    self.cols.append(Num(col_name, idx, -1))
+                    self.cols.append(Num(col_name,idx,-1))
                 else:
-                    self.cols.append(Num(col_name, idx))
+                    self.cols.append(Num(col_name,idx))
             else:
                 self.col_info['syms'].append(idx)
-                self.cols.append(Sym(col_name, idx))
-            if bool(re.search(r"[<>!]", col_name)):
+                self.cols.append(Sym(col_name,idx))
+            if bool(re.search(r"[<>!]",col_name)):
                 self.col_info['goals'].append(idx)
             else:
                 self.col_info['xs'].append(idx)
 
+
     def tbl_header(self):
         return [col.column_name for col in self.cols]
 
-    def read(self, s, type="string"):
+    def read(self, s, type = "string"):
         content = None
         if type == "file":
             content = cells(cols(rows(file(s))))
@@ -343,23 +353,23 @@ class Tbl:
             if idx == 0:
                 # Column names are here
                 self.cols = []
-                self.add_column(row)
+                self.addCol(row)
             else:
-                self.add_row(row)
-
-    def add_row(self, row):
+                self.addRow(row)
+    
+    def addRow(self, row):
         for i in range(len(self.cols)):
             self.cols[i].add_new_value(row[i])
         self.rows.append(Row(row))
 
-
 if __name__ == "__main__":
-    # Test SYM class
+    
+    #Test SYM class
     sym = Sym("test_column", 0)
     sym.test()
 
-    # Test TBL class
-    s = """
+    #Test TBL class
+    s="""
         outlook, ?$temp,  <humid, wind, !play
         rainy, 68, 80, FALSE, yes # comments
         sunny, 85, 85,  FALSE, no

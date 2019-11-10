@@ -4,4 +4,4 @@
 * Prakshatkumar Shah (pmshah)
 
 ## Instructions
-To run this file, type: `python3 hw5.py`.
+To run this file, type: `python3 hw8.py`.

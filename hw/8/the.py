@@ -1,21 +1,27 @@
-"""
-Config options
-"""
+from sys import path
+import os
+from math import log
+path.append(os.path.abspath("..") + "/2")
+from hw_2 import Num,SYMBOLS
 
-from boot import *
+def last(arr):
+    "Returns last element from given list"
+    return arr[-1]
 
-THE = o(
-    char=o(sep=",",
-           num="$",
-           less="<",
-           more=">",
-           skip="?",
-           klass="!",
-           doomed=r'([\n\t\r ]|#.*)'),
-    div=o(trivial=1.05,
-          cohen=0.3,
-          min=0.5,
-          ),
-    tree = o(minObs = 2,
-             rnd = 1)
-)
+def first(arr):
+    "Returns first element from given list"
+    return arr[0]
+
+def same(num):
+    "Right now returns same number"
+    return num
+
+def ordered(num_list, key, index):
+    "Sort elements in array at the same time ignore 'Skip' characters"
+    return sorted(num_list, key = lambda x: x[index])
+    
+class DIVISION_UTILS:
+    tri = 1.025
+    coh = 0.3
+    mini = 0.5
+    minO = 4
