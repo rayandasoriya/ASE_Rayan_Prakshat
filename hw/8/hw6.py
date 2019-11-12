@@ -1,13 +1,16 @@
 from sys import path
-import json, jsonpickle, random, re, os, math
+from math import log
+import json, jsonpickle, random, re, os
 path.append(os.path.abspath("..") + "/2")
-from hw_2 import Row, Col, Num, Sym, cells, cols, rows, file, fromString
-from the import same, first, last, ordered, DIVISION_UTILS
-from div2 import Div2, column_name_fn
+path.append(os.path.abspath("..") + "/5")
+from hw_2 import *
+from the import *
+from div2 import *
 r= random.random
 seed=random.seed
 
-def tree_result(low, high, n, text, kids):
+
+def treeR(low, high, n, text, kids):
     return {"low" : low,"high" : high,"n" : n,"text" : text,"kids": kids}
 
 def leaf_result(classval, rows):
@@ -19,13 +22,9 @@ def leaf_result(classval, rows):
 
 class Tbl:
     def __init__(i):
-        i.rows = list() 
-        i.cols = list() 
+        i.rows, i.cols = [], []
         i.col_info = {'goals': [], 'nums': [], 'syms': [], 'xs' : [], 'negative_weight' : []}
-        i.tree_result = None
-
-    def dump(i):
-        print(json.dumps(json.loads(jsonpickle.encode(i)), indent=4, sort_keys=True))
+        i.treeR = None
 
     def addCol(i, column):
         for idx,col_name in enumerate(column):
@@ -59,21 +58,21 @@ class Tbl:
                 i.addCol(row)
             else:
                 i.addRow(row)
+        
+    def addRow(i, row):
+        for j in range(len(i.cols)):
+            i.cols[j].add_new_value(row[j])
+        i.rows.append(Row(row))
     
-    def addRow(self, row):
-        for i in range(len(self.cols)):
-            self.cols[i].add_new_value(row[i])
-        self.rows.append(Row(row))
-
     def tree(i):
         class_index = i.col_info["goals"][0]
         class_type = Sym if class_index in i.col_info["syms"] else Num
         func1 = lambda row: row.cells
         data = list(map(func1, i.rows))
-        i.tree_result = i.get_tree(data, class_index,class_type, 0)
+        i.treeR = i.get_tree(data, class_index,class_type, 0)
     
     def get_tree(i, data_rows, class_index, class_type, level):
-        if len(data_rows) >= DIVISION_UTILS.minO:
+        if len(data_rows) >= DIVISION_UTILS.minObs:            
             low, cut, column = 10**32, None, None
             column_types = []
             for col in i.cols:
@@ -90,11 +89,25 @@ class Tbl:
                     if low1 < low:
                         cut, low, column = cut1, low1, col
             if cut:
-                func = lambda row: row.cells
-                return [tree_result(low, high, len(kids), column.column_name, i.get_tree(kids, class_index, class_type, level + 1)) for low,high, kids in i.split(data_rows, cut, column)]                        
+                return [treeR(low, high, len(kids), column.column_name, i.get_tree(kids, class_index, class_type, level + 1)) for low,high, kids in i.split(data_rows, cut, column)]                        
         return leaf_result(data_rows[len(data_rows)//2][class_index], len(data_rows))
 
     def split(i, data_rows, cut, column):
         left_half,low = data_rows[:cut],data_rows[cut][column.position]
         right_half,high = data_rows[cut:], data_rows[cut+1][column.position]
         return [(-float('inf'), low, left_half),(high, float('inf'), right_half)]
+            
+def hw6Print(tree, level = 0):
+    if isinstance(tree, list):
+        for each in tree:
+            hw6Print(each, level)
+    else:
+        for _ in range(level):
+            print ("|", end = " ")
+        print ("{0}={1}.....{2}".format(tree['text'], tree['low'], tree['high']), end = " ")        
+        if not isinstance(tree['kids'], list):
+            print ("{0} ({1})".format(tree['kids']['val'],tree['kids']['n']))
+        else:
+            for each in tree['kids']:
+                print()
+                hw6Print(each, level + 1)
