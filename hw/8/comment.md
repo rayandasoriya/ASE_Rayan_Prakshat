@@ -1,0 +1,1 @@
+We can consider the trees which are generated here to be good as they are not that deep and the cuts are signigicant enoogh for the pruning purpose. This justifies the statement that "Good knowledge is succinct knowledge" due to the non-complex feature of the trees.
