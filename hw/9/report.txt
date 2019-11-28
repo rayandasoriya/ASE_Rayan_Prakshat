@@ -1,17 +1,17 @@
 The `same` score table for each of the file is available in this report:
 
 For file:  xomo10000.csv
-Alpha:  0.5 , Baseline:  0.1225 , Incremental score:  0.1 (20/2000)
-Alpha:  0.6 , Baseline:  0.1085 , Incremental score:  0.025 (40/2000)
-Alpha:  0.7 , Baseline:  0.096 , Incremental score:  0.025 (40/2000)
-Alpha:  0.8 , Baseline:  0.1085 , Incremental score:  0 (20/2000)
-Alpha:  0.9 , Baseline:  0.089 , Incremental score:  0.06 (50/2000)
+Alpha:  0.5 , Baseline:  0.109 , Incremental score:  0.095 (20/2000)
+Alpha:  0.6 , Baseline:  0.08 , Incremental score:  0.02 (40/2000)
+Alpha:  0.7 , Baseline:  0.109 , Incremental score:  0.02 (40/2000)
+Alpha:  0.8 , Baseline:  0.09 , Incremental score:  0.1 (20/2000)
+Alpha:  0.9 , Baseline:  0.128 , Incremental score:  0.03 (50/2000)
 For file:  pom310000.csv
-Alpha:  0.5 , Baseline:  0.23 , Incremental score:  0.2 (10/2000)
-Alpha:  0.6 , Baseline:  0.24 , Incremental score:  0.11 (45/2000)
-Alpha:  0.7 , Baseline:  0.25 , Incremental score:  0.15 (73/2000)
-Alpha:  0.8 , Baseline:  0.27 , Incremental score:  0.12 (64/2000)
-Alpha:  0.9 , Baseline:  0.23 , Incremental score:  0.1 (20/2000)
+Alpha:  0.5 , Baseline:  0.21 , Incremental score:  0.17 (10/2000)
+Alpha:  0.6 , Baseline:  0.22 , Incremental score:  0.17 (45/2000)
+Alpha:  0.7 , Baseline:  0.23 , Incremental score:  0.19 (73/2000)
+Alpha:  0.8 , Baseline:  0.25 , Incremental score:  0.17 (64/2000)
+Alpha:  0.9 , Baseline:  0.213 , Incremental score:  0.09 (20/2000)
 
 Based on the after values for the 20 iterations and 100 probes initially, we have calculated an incremental score.
 

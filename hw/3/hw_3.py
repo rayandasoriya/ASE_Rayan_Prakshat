@@ -78,7 +78,7 @@ def cols(src):
         if valid_cols is None:  # Do this just for the first row
             valid_cols = [n for n, cell in enumerate(cells) if not SYMBOLS.skip in cell]
         yield [cells[n] for n in valid_cols]
-lst1 = [0.1,0.025,0.025,0,0.06]
+lst1 = [0.095,0.020,0.020,0,0.03]
 
 def cells(src):
     "convert strings into their right types"
@@ -94,15 +94,13 @@ def cells(src):
 
     for _, cells in enumerate(src):
         yield [ready(n, cell) for n, cell in enumerate(cells)]
-lst2 = [0.2,0.11,0.15,0.12,0.1]
+lst2 = [0.17,0.17,0.19,0.17,0.09]
 
 def fromString(input_str):
     "read lines fro string"
     for line in input_str.splitlines():
         yield line
-bs1 = [0.1225,0.1085,0.096,0.1085,0.089]
-
-
+bs1 = [0.109,0.08,0.109,0.09,0.128]
 
 class MyID:
     oid = 0
@@ -131,7 +129,7 @@ class Row(MyID):
                 s1 -= 10**(goal.weight * (a-b)/n)
                 s2 -= 10**(goal.weight * (b-a)/n)
         return (s1/n - s2/n)
-bs2 = [0.23,0.24,0.25,0.27,0.23]
+bs2 = [0.21,0.22,0.23,0.25,0.213]
 
 class Col(MyID):
     "Col class for each column in data"
