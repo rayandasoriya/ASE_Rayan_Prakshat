@@ -236,13 +236,13 @@ class RPTree2:
         s.capture()
         i.bs1 = bs1
         i.bs2 = bs2            
-        i.inc1, i.inc2 = {}, {}
-        for key1,key2 in zip(i.bs1,i.bs2):
+        i.inc1, i.inc2 = [0]*5, [0]*5
+        for key1 in range(len(i.bs1)):
             i.inc1[key1] = lst1[i.cnt]
-            i.inc2[key2] = lst2[i.cnt]
+            i.inc2[key1] = lst2[i.cnt]
             i.cnt+=1
         i.cnt = 0
-        
+
 class Sym(Col):
     "Sym class as a subclass of Col"
 

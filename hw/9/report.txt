@@ -1,0 +1,34 @@
+The `same` score table for each of the file is available in this report:
+
+For file:  xomo10000.csv
+Alpha:  0.5 , Baseline:  0.1225 , Incremental score:  0.1 (20/2000)
+Alpha:  0.6 , Baseline:  0.1085 , Incremental score:  0.025 (40/2000)
+Alpha:  0.7 , Baseline:  0.096 , Incremental score:  0.025 (40/2000)
+Alpha:  0.8 , Baseline:  0.1085 , Incremental score:  0 (20/2000)
+Alpha:  0.9 , Baseline:  0.089 , Incremental score:  0.06 (50/2000)
+For file:  pom310000.csv
+Alpha:  0.5 , Baseline:  0.23 , Incremental score:  0.2 (10/2000)
+Alpha:  0.6 , Baseline:  0.24 , Incremental score:  0.11 (45/2000)
+Alpha:  0.7 , Baseline:  0.25 , Incremental score:  0.15 (73/2000)
+Alpha:  0.8 , Baseline:  0.27 , Incremental score:  0.12 (64/2000)
+Alpha:  0.9 , Baseline:  0.23 , Incremental score:  0.1 (20/2000)
+
+Based on the after values for the 20 iterations and 100 probes initially, we have calculated an incremental score.
+
+We have defined alpha as 0.5 initially and then increased it to 0.9 with an increment of 0.1.
+Then we calculated the new distance using the given formula:
+x = (a^2 + c^2 - b^2) / (2c)
+And if the sub-trees are being split at s and s < 0.5, then far = s*alpha and anomalous is x < far
+else far = s+ (1-s)*alpha and anomalous is x > far
+
+- Trends we observed:  
+Observation 1: The number of probes increased on increasing alpha from 0.5 to 0.9.
+Observation 2: One of the major trends we observed was that the baseline score is always greater than the incremental
+score.
+Obersvation 3: On increasing alpha, the sample size gets larger which results more number of probes and as a result, the score
+will align more to the incremental tree.
+
+Based on the BEFORE and AFTER values of the probes, we select 100 probes initially to calculate the same score.
+As per observations, we cannot guarantee in incremental trees that all or most probes will be available in the clusters after an iteration. 
+The reason for this is that it is seeing that data for the first time and has not occured in the initial 500 rows. 
+However, for the firsr RPTree, as the entire dataset is used, we can be assured to find all probes after each iteration.

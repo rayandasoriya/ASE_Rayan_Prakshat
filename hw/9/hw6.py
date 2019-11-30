@@ -36,9 +36,9 @@ class Tbl2:
         else:
             med = (al*len(i.rows)+1)/2        
         if 'pom' not in fname:
-            print('Alpha: ', al, ', Baseline: ', a.bs1[length], ', Increment: ', a. inc1[a.bs1[length]])
+            print('Alpha: ', al, ', Baseline Score: ', a.bs1[length], ', Incremental Score: ', a. inc1[length])
         else:
-            print('Alpha: ', al, ', Baseline: ', a.bs2[length], ', Increment: ', a. inc2[a.bs2[length]])
+            print('Alpha: ', al, ', Baseline Score: ', a.bs2[length], ', Incremental Score: ', a. inc2[length])
 
     def addCol(i, column):
         for idx,col_name in enumerate(column):
