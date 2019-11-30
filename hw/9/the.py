@@ -21,7 +21,8 @@ def ordered(num_list, key, index):
     return sorted(num_list, key = lambda x: x[index])
     
 class DIVISION_UTILS:
-    tri = 1.025
-    coh = 0.3
-    mini = 0.5
-    minO = 4
+    trivial = 1.025
+    cohen = 0.3
+    minimum = 0.5
+    minObs = 4
+    alpha = [0.5, 0.6, 0.7, 0.8, 0.9]

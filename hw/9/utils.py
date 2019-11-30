@@ -3,6 +3,7 @@ Config options
 """
 
 from boot import *
+from hw_3 import *
 
 THE = o(
     char=o(sep=",",
@@ -20,3 +21,5 @@ THE = o(
              rnd = 1),
 
 )
+
+

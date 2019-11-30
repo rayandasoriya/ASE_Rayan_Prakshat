@@ -1,0 +1,12 @@
+For file:  xomo10000.csv
+Alpha:  0.5 , Baseline:  0.1225 , Increment:  0.1
+Alpha:  0.6 , Baseline:  0.1085 , Increment:  0
+Alpha:  0.7 , Baseline:  0.096 , Increment:  0.025
+Alpha:  0.8 , Baseline:  0.1085 , Increment:  0
+Alpha:  0.9 , Baseline:  0.089 , Increment:  0.06
+For file:  pom310000.csv
+Alpha:  0.5 , Baseline:  0.23 , Increment:  0.1
+Alpha:  0.6 , Baseline:  0.24 , Increment:  0.11
+Alpha:  0.7 , Baseline:  0.25 , Increment:  0.15
+Alpha:  0.8 , Baseline:  0.27 , Increment:  0.12
+Alpha:  0.9 , Baseline:  0.23 , Increment:  0.1
