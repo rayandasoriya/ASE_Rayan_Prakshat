@@ -13,7 +13,9 @@ class Tree:
         i.tbl = None
         i.level = 0
         i.isRoot = False
-        i.splitCount = 0
+        i.splitCount = 0    
+
+
 
 def print_tree(root):
     if not root.isRoot:
@@ -54,7 +56,7 @@ def cosine(x, y, z, dist, cols):
     return (distance(x, z, cols) ** 2 + dist ** 2 - distance(y, z, cols) ** 2) / (2 * dist)
 
 class hw7:
-    def __init__(i, file_name):
+    def __init__(i, file_name=None):
         seed(1)
         i.leaf_nodes = []
         i.file_contents = cells(cols(rows(file(file_name))))

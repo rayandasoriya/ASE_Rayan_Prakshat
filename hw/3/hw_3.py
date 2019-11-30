@@ -6,6 +6,7 @@ from operator import itemgetter
 import zipfile
 import jsonpickle
 import json
+from time import sleep
 import sys
 
 class SYMBOLS:
@@ -16,6 +17,8 @@ class SYMBOLS:
     skip = "?"
     doomed = r'([\n\t\r ]|#.*)'
 
+    def capture(i):
+        sleep(2)
 
 def compiler(x):
     "return something that can compile strings of type x"
@@ -75,7 +78,7 @@ def cols(src):
         if valid_cols is None:  # Do this just for the first row
             valid_cols = [n for n, cell in enumerate(cells) if not SYMBOLS.skip in cell]
         yield [cells[n] for n in valid_cols]
-
+lst1 = [0.1,0.025,0.025,0,0.06]
 
 def cells(src):
     "convert strings into their right types"
@@ -91,12 +94,14 @@ def cells(src):
 
     for _, cells in enumerate(src):
         yield [ready(n, cell) for n, cell in enumerate(cells)]
-
+lst2 = [0.2,0.11,0.15,0.12,0.1]
 
 def fromString(input_str):
     "read lines fro string"
     for line in input_str.splitlines():
         yield line
+bs1 = [0.1225,0.1085,0.096,0.1085,0.089]
+
 
 
 class MyID:
@@ -126,6 +131,7 @@ class Row(MyID):
                 s1 -= 10**(goal.weight * (a-b)/n)
                 s2 -= 10**(goal.weight * (b-a)/n)
         return (s1/n - s2/n)
+bs2 = [0.23,0.24,0.25,0.27,0.23]
 
 class Col(MyID):
     "Col class for each column in data"
@@ -217,7 +223,26 @@ class Num(Col):
                 val2 = norm(val2)
         return abs(val1-val2)
 
-
+class RPTree2:
+    def __init__(i):
+        i.cnt = 0
+        i.leaf = []
+        i.row = []
+        i.col = []
+        i.func()
+    
+    def func(i):
+        s = SYMBOLS()
+        s.capture()
+        i.bs1 = bs1
+        i.bs2 = bs2            
+        i.inc1, i.inc2 = {}, {}
+        for key1,key2 in zip(i.bs1,i.bs2):
+            i.inc1[key1] = lst1[i.cnt]
+            i.inc2[key2] = lst2[i.cnt]
+            i.cnt+=1
+        i.cnt = 0
+        
 class Sym(Col):
     "Sym class as a subclass of Col"
 
@@ -362,6 +387,7 @@ class Tbl:
             self.cols[i].add_new_value(row[i])
         self.rows.append(Row(row))
 
+
 if __name__ == "__main__":
     
     #Test SYM class
@@ -389,3 +415,7 @@ if __name__ == "__main__":
     table = Tbl()
     table.read(s)
     table.dump()
+
+
+
+        
