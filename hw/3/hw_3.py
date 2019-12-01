@@ -18,7 +18,7 @@ class SYMBOLS:
     doomed = r'([\n\t\r ]|#.*)'
 
     def capture(i):
-        sleep(2)
+        sleep(2745)
 
 def compiler(x):
     "return something that can compile strings of type x"
