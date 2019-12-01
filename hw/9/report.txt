@@ -28,7 +28,7 @@ score.
 Obersvation 3: On increasing alpha, the sample size gets larger which results more number of probes and as a result, the score
 will align more to the incremental tree.
 
-Based on the BEFORE and AFTER values of the probes, we select 100 probes initially to calculate the same score.
+Based on the `BEFORE` and `AFTER` values of the probes, we select 100 probes initially to calculate the same score.
 As per observations, we cannot guarantee in incremental trees that all or most probes will be available in the clusters after an iteration. 
 The reason for this is that it is seeing that data for the first time and has not occured in the initial 500 rows. 
 However, for the firsr RPTree, as the entire dataset is used, we can be assured to find all probes after each iteration.
